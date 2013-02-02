@@ -62,10 +62,11 @@ bestPath :: Board -> Path
 -- If there is a tie for the best path, it doesn't matter which of the best
 -- paths your function returns
 bestPath board = ([],0) 
+
 		
 -- ADD YOUR HELPER FUNCTIONS HERE.
 -- Your helper functions must include the two described in the web site, but you can
 -- add more of your own if you wish.
-		
+maxPath :: [Path] -> Path
         
         
