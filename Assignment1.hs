@@ -61,9 +61,8 @@ bestPath :: Board -> Path
 -- Replace it with a real implementation.
 -- If there is a tie for the best path, it doesn't matter which of the best
 -- paths your function returns
-bestPath board = ([],0) 
+bestPath board = ([],0)
 
-		
 -- ADD YOUR HELPER FUNCTIONS HERE.
 -- Your helper functions must include the two described in the web site, but you can
 -- add more of your own if you wish.
@@ -77,8 +76,12 @@ maxPath (x:xs)
 
 bestPathStarting :: Board -> Int -> Path
 bestPathStarting [] _ 		= ([],0)
-bestPathStarting [x] i 		= ([i], x !! i)
-bestPathStarting (x:xs) i	= maxPath [(x, (x !! i)), (bestPathStarting xs (i+1)), (bestPathStarting xs (i-1))]
+bestPathStarting [x] i 		
+	| i < 0			= ([],0)
+	| otherwise		= ([i], x !! i)
+bestPathStarting (x:xs) i
+	| i < 0			= ([],0)
+	| otherwise		= maxPath [(x, (x !! i)), (bestPathStarting xs (i+1)), (bestPathStarting xs (i-1))]
 
 path1 :: Path
 path1 = ([1,2],3)
@@ -89,4 +92,3 @@ path2 = ([2,1],5)
 
 path3 :: Path
 path3 = ([4,5,6],8)
-        
