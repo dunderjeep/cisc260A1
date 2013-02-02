@@ -68,16 +68,17 @@ bestPath board = ([],0)
 -- Your helper functions must include the two described in the web site, but you can
 -- add more of your own if you wish.
 maxPath :: [Path] -> Path
-maxPath [] = error "maximum of empty path"
-maxPath [x] = x
+maxPath [] 			= error "maximum of empty path"
+maxPath [x] 			= x
 maxPath (x:xs)
-	| snd x > snd maxTail = x
-	| otherwise = maxTail
-	where maxTail = maxPath xs
+	| snd x > snd maxTail 	= x
+	| otherwise 		= maxTail
+	where maxTail 		= maxPath xs
 
 bestPathStarting :: Board -> Int -> Path
-bestPathStarting [] _ = ([],0)
-bestPathStarting [x] i = ([i], x !! i)
+bestPathStarting [] _ 		= ([],0)
+bestPathStarting [x] i 		= ([i], x !! i)
+bestPathStarting (x:xs) i	= maxPath [(x, (x !! i)), (bestPathStarting xs (i+1)), (bestPathStarting xs (i-1))]
 
 path1 :: Path
 path1 = ([1,2],3)
