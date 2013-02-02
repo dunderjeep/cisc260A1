@@ -75,6 +75,10 @@ maxPath (x:xs)
 	| otherwise = maxTail
 	where maxTail = maxPath xs
 
+bestPathStarting :: Board -> Int -> Path
+bestPathStarting [] _ = ([],0)
+bestPathStarting [x] i = ([i], x !! i)
+
 path1 :: Path
 path1 = ([1,2],3)
 
