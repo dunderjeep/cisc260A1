@@ -68,5 +68,20 @@ bestPath board = ([],0)
 -- Your helper functions must include the two described in the web site, but you can
 -- add more of your own if you wish.
 maxPath :: [Path] -> Path
-        
+maxPath [] = error "maximum of empty path"
+maxPath [x] = x
+maxPath (x:xs)
+	| snd x > snd maxTail = x
+	| otherwise = maxTail
+	where maxTail = maxPath xs
+
+path1 :: Path
+path1 = ([1,2],3)
+
+path2 :: Path
+path2 = ([2,1],5)
+
+
+path3 :: Path
+path3 = ([4,5,6],8)
         
