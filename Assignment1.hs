@@ -15,6 +15,10 @@ module Assignment1 where
 -- (element 0 of the board) is the first row of the board.
 type Board = [[Int]]
 
+-- small board for testing
+sampleBoard0 :: Board
+sampleBoard0 = [[1,2,3],[3,2,5]]
+
 -- the board shown on the web site
 sampleBoard1 :: Board
 sampleBoard1 = [[5,4,3,1],[10,2,1,0],[0,1,2,0],[2,3,4,20]]
@@ -67,21 +71,24 @@ bestPath board = ([],0)
 -- Your helper functions must include the two described in the web site, but you can
 -- add more of your own if you wish.
 maxPath :: [Path] -> Path
-maxPath [] 			= error "maximum of empty path"
-maxPath [x] 			= x
+maxPath [] 				= error "maximum of empty path"
+maxPath [x] 				= x
 maxPath (x:xs)
-	| snd x > snd maxTail 	= x
-	| otherwise 		= maxTail
-	where maxTail 		= maxPath xs
+	| snd x > snd maxTail 		= x
+	| otherwise 			= maxTail
+	where maxTail 			= maxPath xs
 
 bestPathStarting :: Board -> Int -> Path
-bestPathStarting [] _ 		= ([],0)
+bestPathStarting [] _ 			= ([],0)
+bestPathStarting [] 0 			= ([],0)
 bestPathStarting [x] i 		
-	| i < 0			= ([],0)
-	| otherwise		= ([i], x !! i)
+	| i < 0				= ([],0)
+	| otherwise			= ([i], x !! i)
 bestPathStarting (x:xs) i
-	| i < 0			= ([],0)
-	| otherwise		= maxPath [(x, (x !! i)), (bestPathStarting xs (i+1)), (bestPathStarting xs (i-1))]
+	| i < 0	|| i >= length (x:xs)	= ([],0)
+	| otherwise			= (i:y, (x !! i)+j)
+	where (y,j) 			= maxPath [(bestPathStarting xs i),(bestPathStarting xs (i+1)), (bestPathStarting xs (i-1))]
+--(x, (x !! i))
 
 path1 :: Path
 path1 = ([1,2],3)
