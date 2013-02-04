@@ -76,7 +76,7 @@ maxPath (x:xs)
 
 {-
  - Finds the best path given a board and a starting column value.
- - i,j represent indices, as usual
+ - i,j represent indices
 -}
 bestPathStarting :: Board -> Int -> Path
 bestPathStarting [] _ 		= ([],0)
