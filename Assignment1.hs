@@ -66,13 +66,13 @@ bestPath :: Board -> Path
 -- If there is a tie for the best path, it doesn't matter which of the best
 -- paths your function returns
 --bestPath []	= ([],0)
-bestPath x = maxPath [bestPathStarting x i|i<-[0..length x]]	
+bestPath x = maxPath [bestPathStarting x i|i<-[0..length x-1]]	
 
 -- ADD YOUR HELPER FUNCTIONS HERE.
 -- Your helper functions must include the two described in the web site, but you can
 -- add more of your own if you wish.
 maxPath :: [Path] -> Path
-maxPath [] 				= error "maximum of empty path"
+maxPath [] 				= ([],0)
 maxPath [x] 				= x
 maxPath (x:xs)
 	| snd x > snd maxTail 		= x
@@ -81,21 +81,9 @@ maxPath (x:xs)
 
 bestPathStarting :: Board -> Int -> Path
 bestPathStarting [] _ 			= ([],0)
-bestPathStarting [] 0 			= ([],0)
-bestPathStarting [x] i 		
-	| i < 0				= ([],0)
-	| otherwise			= ([i], x !! i)
-bestPathStarting (x:xs) i
-	| i < 0	|| i >= length (x:xs)	= ([],0)
-	| otherwise			= (i:y, (x !! i)+j)
-	where (y,j) 			= maxPath [(bestPathStarting xs i),(bestPathStarting xs (i+1)), (bestPathStarting xs (i-1))]
-
-path1 :: Path
-path1 = ([1,2],3)
-
-path2 :: Path
-path2 = ([2,1],5)
-
-
-path3 :: Path
-path3 = ([4,5,6],8)
+--bestPathStarting [] 0 			= ([],0)
+bestPathStarting [x] i 			= ([i], x !! i)
+bestPathStarting (x:xs) i		
+	| i > length x			= error "Index larger than column length."
+	| otherwise			= (i:y, j + (x !! i))
+	where (y,j)			= maxPath [bestPathStarting xs k|k<-[i-1,i,i+1], k >= 0, k < length x]
