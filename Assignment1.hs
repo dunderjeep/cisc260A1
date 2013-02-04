@@ -1,12 +1,11 @@
 {-
- - Starting code for Assignment 1 in CISC 260, Winter 2013.
- - This module, when finished, will find the most profitable path across a
+ - Assignment 1 CISC 260, Winter 2013.
+ - This module finds the most profitable path across a
  - chessboard with coins on the squares.  The path must start at the top of the
  - board and finish at the bottom, moving down one square either straight or diagonally
  - at each move.
  -
- - Author: Margaret Lamb
- - Add you name(s) or student id number(s) to this header comment.
+ - Author: Margaret Lamb, Cliff Coulter 04192150
  -}
 module Assignment1 where
 
@@ -49,7 +48,6 @@ sampleBoard5 = [[5, 4,3,8,6],
                 [0, 1,9,4,3],
                 [2, 3,4,0,20]]
 
-
 -- A path through the rows (or some of the rows) of a board.
 -- First element is sequence of columns, second is total coins
 type Path = ([Int],Int)
@@ -61,30 +59,29 @@ type Path = ([Int],Int)
  - of coins.  
  -}
 bestPath :: Board -> Path
--- The "stub" below is there so that this module will load without error as is.  
--- Replace it with a real implementation.
--- If there is a tie for the best path, it doesn't matter which of the best
--- paths your function returns
---bestPath []	= ([],0)
-bestPath []				= ([],0)
-bestPath [[]]				= ([],0)
-bestPath x 				= maxPath [bestPathStarting x i|i<-[0..length x-1]]	
-
--- ADD YOUR HELPER FUNCTIONS HERE.
--- Your helper functions must include the two described in the web site, but you can
--- add more of your own if you wish.
+bestPath []	= ([],0)
+bestPath [[]]	= ([],0)
+bestPath x 	= maxPath [bestPathStarting x i|i<-[0..length x-1]]
+	
+{-
+ - Finds the maximum path given a set of paths as a function of the value of the    2nd element.
+-}
 maxPath :: [Path] -> Path
-maxPath [] 				= ([],0)
-maxPath [x] 				= x
-maxPath (x:xs)
-	| snd x > snd maxTail 		= x
-	| otherwise 			= maxTail
-	where maxTail 			= maxPath xs
+maxPath [] 			= ([],0)
+maxPath [x] 			= x
+maxPath (x:xs)		
+	| snd x > snd maxTail	= x
+	| otherwise 		= maxTail
+	where maxTail 		= maxPath xs
 
+{-
+ - Finds the best path given a board and a starting column value.
+ - i,j represent indices, as usual
+-}
 bestPathStarting :: Board -> Int -> Path
-bestPathStarting [] _ 			= ([],0)
-bestPathStarting [x] i 			= ([i], x !! i)
+bestPathStarting [] _ 		= ([],0)
+bestPathStarting [x] i		= ([i], x !! i)
 bestPathStarting (x:xs) i		
-	| i > length x			= error "Index larger than column length."
-	| otherwise			= (i:y, j + (x !! i))
-	where (y,j)			= maxPath [bestPathStarting xs k|k<-[i-1,i,i+1], k >= 0, k < length x]
+	| i > length x		= error "Index larger than column length."
+	| otherwise		= (i:y, (x !! i) + j)
+	where (y,j)		= maxPath [bestPathStarting xs k|k<-[i-1,i,i+1], k >= 0, k < length x]
