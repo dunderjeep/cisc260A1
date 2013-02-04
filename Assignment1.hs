@@ -66,7 +66,9 @@ bestPath :: Board -> Path
 -- If there is a tie for the best path, it doesn't matter which of the best
 -- paths your function returns
 --bestPath []	= ([],0)
-bestPath x = maxPath [bestPathStarting x i|i<-[0..length x-1]]	
+bestPath []				= ([],0)
+bestPath [[]]				= ([],0)
+bestPath x 				= maxPath [bestPathStarting x i|i<-[0..length x-1]]	
 
 -- ADD YOUR HELPER FUNCTIONS HERE.
 -- Your helper functions must include the two described in the web site, but you can
@@ -81,7 +83,6 @@ maxPath (x:xs)
 
 bestPathStarting :: Board -> Int -> Path
 bestPathStarting [] _ 			= ([],0)
---bestPathStarting [] 0 			= ([],0)
 bestPathStarting [x] i 			= ([i], x !! i)
 bestPathStarting (x:xs) i		
 	| i > length x			= error "Index larger than column length."
